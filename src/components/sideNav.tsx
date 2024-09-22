@@ -8,8 +8,7 @@ import Image from 'next/image';
 const navItems = [
   { name: 'Pantry', href: '/pantry', icon: Home },
   { name: 'Inventory', href: '/inventory', icon: Clipboard },
-  // { name: 'Analytics', href: '/analytics', icon: BarChart },
-  // { name: 'Shopping List', href: '/shopping-list', icon: ShoppingCart },
+
  { name: 'Recipe', href: '/recipe', icon: CookingPot },
 ];
 
