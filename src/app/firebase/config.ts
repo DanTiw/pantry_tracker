@@ -1,12 +1,12 @@
 // Config for Firebase SDK
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyDtBwonE-dS2j6zYkiQa1uU4HWoq0GLStg",
+  authDomain: "study-abroad-69b8f.firebaseapp.com",
+  projectId: "study-abroad-69b8f",
+  storageBucket: "study-abroad-69b8f.appspot.com",
+  messagingSenderId: "288323315122",
+  appId: "1:288323315122:web:d3b79c3fa0f55715bbf0ab",
+  measurementId: "G-ZR2J385PT6"
 };
 
 // Initialize Firebase
