@@ -2,11 +2,9 @@
 import { useState, useRef } from 'react';
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CameraIcon } from 'lucide-react';
 
-// Import TensorFlow.js and the MobileNet model
-import * as mobilenet from '@tensorflow-models/mobilenet';
+// Import the camera icon from React Icons
 
 interface AddViaImageComponentProps {
   onItemRecognized: (itemName: string) => void;
@@ -28,6 +26,12 @@ export default function AddViaImageComponent({ onItemRecognized }: AddViaImageCo
           imgElement.src = reader.result as string;
 
           imgElement.onload = async () => {
+            // Dynamically import TensorFlow.js and MobileNet
+            const [tf, mobilenet] = await Promise.all([
+              import('@tensorflow/tfjs'),
+              import('@tensorflow-models/mobilenet'),
+            ]);
+
             // Load the model
             const model = await mobilenet.load();
 
@@ -59,8 +63,7 @@ export default function AddViaImageComponent({ onItemRecognized }: AddViaImageCo
         onClick={() => setIsImageDialogOpen(true)}
         className="w-full sm:w-auto"
       >
-        {/* Camera Icon */}
-        <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M4 5a2 2 0 012-2h3a1 1 0 01.9.55L10.618 5H14a2 2 0 012 2v5a1 1 0 002 0V7a4 4 0 00-4-4h-3.382l-.723-1.447A1 1 0 008 1H6a4 4 0 00-4 4v7a1 1 0 002 0V5z" /><path d="M11 16a4 4 0 10-8 0 4 4 0 008 0zM7 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
+        <CameraIcon className="h-5 w-5 mr-2" />
         Add Item via Image
       </Button>
 
@@ -80,6 +83,7 @@ export default function AddViaImageComponent({ onItemRecognized }: AddViaImageCo
               capture="environment"
               onChange={handleImageCapture}
               ref={imageInputRef}
+              className="file-input"
             />
             {processingImage && <p>Processing image...</p>}
           </div>

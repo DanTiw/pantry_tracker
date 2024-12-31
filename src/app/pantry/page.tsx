@@ -9,7 +9,8 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, setDoc, getDocs, updateDoc, deleteDoc, doc, Firestore, query, where } from "firebase/firestore";
 import firebaseConfig from "@/app/firebase/config";
 import { useUser } from "@clerk/nextjs";
-
+// At the top of your Pantry component file
+import dynamic from 'next/dynamic';
 import AddViaImageComponent from "@/components/addViaImage"; // Import the new component
 
 const app = initializeApp(firebaseConfig);

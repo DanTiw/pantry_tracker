@@ -11,7 +11,6 @@ const navItems = [
 
  { name: 'Recipe', href: '/recipe', icon: CookingPot },
 
- {name : 'Add Via Camera', href: '/picture', icon: CameraIcon},
 ];
 
 const SideNav: React.FC = () => {
