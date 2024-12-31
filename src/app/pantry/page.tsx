@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, setDoc, getDocs, updateDoc, deleteDoc, doc, Firestore, query, where } from "firebase/firestore";
 import firebaseConfig from "@/app/firebase/config";
 import { useUser } from "@clerk/nextjs";
+
+import AddViaImageComponent from "@/components/addViaImage"; // Import the new component
 
 const app = initializeApp(firebaseConfig);
 const db: Firestore = getFirestore(app);
@@ -97,6 +99,13 @@ export default function Pantry() {
     setIsAlertOpen(true);
   };
 
+  // Function to handle the recognized item from AddViaImageComponent
+  const handleItemRecognized = (itemName: string) => {
+    setNewItem({ id: '', name: itemName, quantity: 1, weight: 'g' });
+    setIsEditing(false);
+    setIsAlertOpen(true);
+  };
+
   if (!user) {
     return <div>Please sign in to access your pantry.</div>;
   }
@@ -104,18 +113,26 @@ export default function Pantry() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Pantry Management</h1>
-      
-      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogTrigger asChild>
-          <Button onClick={() => {
+
+      {/* Buttons to add item manually or via image */}
+      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <Button
+          onClick={() => {
             setNewItem({ id: '', name: '', quantity: 1, weight: 'g' });
             setIsEditing(false);
             setIsAlertOpen(true);
           }}
-          className="w-full sm:w-auto mb-4">
-            Add New Item
-          </Button>
-        </AlertDialogTrigger>
+          className="w-full sm:w-auto"
+        >
+          Add New Item Manually
+        </Button>
+
+        {/* Use the AddViaImageComponent */}
+        <AddViaImageComponent onItemRecognized={handleItemRecognized} />
+      </div>
+
+      {/* Add or Edit Item Dialog */}
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
             <AlertDialogTitle>{isEditing ? 'Edit Item' : 'Add New Item'}</AlertDialogTitle>
@@ -156,7 +173,7 @@ export default function Pantry() {
             </div>
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setIsAlertOpen(false)}>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={addOrUpdateItem}>
               {isEditing ? 'Update' : 'Add'}
             </AlertDialogAction>
@@ -164,6 +181,7 @@ export default function Pantry() {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Pantry Items Table */}
       <div className="overflow-x-auto">
         <Table className="mt-4 w-full">
           <TableHeader>
