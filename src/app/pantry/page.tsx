@@ -129,7 +129,7 @@ export default function Pantry() {
         </Button>
 
         {/* Use the AddViaImageComponent */}
-        <AddViaImageComponent onItemRecognized={handleItemRecognized} />
+        {/* <AddViaImageComponent onItemRecognized={handleItemRecognized} /> */}
       </div>
 
       {/* Add or Edit Item Dialog */}
